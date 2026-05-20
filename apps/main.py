@@ -53,6 +53,7 @@ def download_and_extract_from_kagglehub(ds_path: str,
 
     return ds_data
 
+
 def train_test_split_by_order(array, test_size: float) -> tuple:
     """
     Split arrays or matrices into order to train and test subset
@@ -137,13 +138,13 @@ def calc_regres_metrics(y_test, y_pred) -> Styler:
 
     # Mean Absolute Error
     mae = mean_absolute_error(y_test, y_pred)
-    rp.add_item("MAE", rp.format_value(mae)) # type: ignore
+    rp.add_item("MAE", rp.format_value(mae))  # type: ignore
     # Mean Squared Error
     mse = mean_squared_error(y_test, y_pred)
-    rp.add_item("MSE", rp.format_value(mse)) # type: ignore
+    rp.add_item("MSE", rp.format_value(mse))  # type: ignore
     # Root Mean Squared Error
     rmse = np.sqrt(mse)
-    rp.add_item("RMSE", rp.format_value(rmse)) # type: ignore
+    rp.add_item("RMSE", rp.format_value(rmse))  # type: ignore
     # R2 - coefficient of determination
     r2 = r2_score(y_test, y_pred)
     rp.add_item(f"R²\n(коефіцієнт детермінації)", rp.format_value(r2))
@@ -158,3 +159,23 @@ def calc_regres_metrics(y_test, y_pred) -> Styler:
 
     return df
 
+
+def get_person_types(sex: str, age: int) -> str:
+    """
+    Person type recognition
+    :param sex: male or female
+    :param age: age
+    :return: person type {man, woman, boy, girl, baby}
+    """
+    if age <= 2:
+        return "baby"
+    elif sex == "male" and age >= 18:
+        return "man"
+    elif sex == "female" and age >= 18:
+        return "woman"
+    elif sex == "male" and age < 18:
+        return "boy"
+    elif sex == "female" and age < 18:
+        return "girl"
+    else:
+        raise ValueError("Incorrect input data!")
